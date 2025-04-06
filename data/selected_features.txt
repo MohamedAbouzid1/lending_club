@@ -1,0 +1,20 @@
+installment
+payment_to_income_ratio
+inquiries_per_year
+meets_credit_policy
+high_risk_flag
+has_public_record
+revol.bal
+inq.last.6mths
+int.rate
+fico_cat_Poor
+fico_cat_Fair
+fico_cat_Good
+fico_cat_Excellent
+int_tier_Low
+int_tier_Medium
+int_tier_High
+int_tier_Very High
+dti_cat_Low DTI
+dti_cat_Medium DTI
+dti_cat_High DTI
