@@ -30,7 +30,7 @@ The dataset (`loan_data.csv`) contains 9,578 loans with 14 features:
 ## Project Structure
 
 ```
-loan-default-prediction/
+lending_club/
 │
 ├── data/
 │   ├── loan_data.csv                      # Original dataset
