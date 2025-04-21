@@ -1,151 +1,102 @@
-# Loan Default Prediction
+# Loan Default Prediction System
 
-A machine learning project to predict the probability of loan defaults using historical lending data.
+This is a web application for predicting loan default risk using machine learning. The system consists of a React frontend and a Flask backend.
 
-## Project Overview
+## Features
 
-This project builds a predictive model to identify potential loan defaults before they occur. Using a dataset containing loan applicant information, loan characteristics, and repayment outcomes, we develop a classification model that financial institutions can use to make more informed lending decisions and optimize their risk management strategies.
+- User-friendly interface for entering loan application details
+- Real-time prediction of loan default risk
+- Risk level classification (Low, Medium, High)
+- Clear recommendations based on prediction results
 
-Dataset source: [Kaggle](https://www.kaggle.com/datasets/urstrulyvikas/lending-club-loan-data-analysis)
+## Prerequisites
 
-## Dataset
+- Python 3.8+
+- Node.js 14+
+- npm or yarn
 
-The dataset (`loan_data.csv`) contains 9,578 loans with 14 features:
+## Setup and Installation
 
-- **credit.policy**: Whether the customer meets credit underwriting criteria
-- **purpose**: The purpose of the loan (debt consolidation, credit card, etc.)
-- **int.rate**: Interest rate on the loan
-- **installment**: Monthly payment amount
-- **log.annual.inc**: Log of the applicant's annual income
-- **dti**: Debt-to-income ratio
-- **fico**: FICO credit score
-- **days.with.cr.line**: Number of days with credit line
-- **revol.bal**: Revolving balance
-- **revol.util**: Revolving line utilization rate
-- **inq.last.6mths**: Number of inquiries in the last 6 months
-- **delinq.2yrs**: Number of delinquencies in the past 2 years
-- **pub.rec**: Number of public records
-- **not.fully.paid**: Target variable - whether the loan was not fully paid (1) or fully paid (0)
+### Backend Setup
 
-## Project Structure
+1. Navigate to the backend directory:
 
-```
-lending_club/
-│
-├── data/
-│   ├── loan_data.csv                      # Original dataset
-│   ├── loan_data_engineered.csv           # Dataset with engineered features
-│   ├── X_train_processed.npy              # Processed training features
-│   ├── X_test_processed.npy               # Processed test features
-│   ├── y_train.npy                        # Training target values
-│   ├── y_test.npy                         # Test target values
-│   └── selected_features.txt              # List of selected features
-│
-├── models/
-│   ├── preprocessor.pkl                   # Saved preprocessor pipeline
-│   └── final_loan_default_model.pkl       # Final tuned model with optimal threshold
-│
-├── notebooks/
-│   ├── EDA.ipynb  # Initial data exploration
-│   ├── feature_engineering.ipynb        # Feature creation
-│   ├── feature_selection.ipynb             # Selection
-│   └── model_building.ipynb           # Model development, tuning and evaluatio
-│
-├── notebooks/figures/
-│
-└── README.md                              # Project documentation
-```
+   ```bash
+   cd backend
+   ```
 
-## Key Findings
+2. Create a virtual environment and activate it:
 
-- **Default Rate**: The overall default rate in the dataset is 16.01%
-- **Key Predictors**: The most important features predicting loan default are:
-  - FICO score
-  - Interest rate
-  - Loan purpose (with small business loans being the riskiest)
-  - Debt-to-income ratio
-  - Revolving utilization rate
-- **Model Performance**: The Logistic Regression model achieved:
-  - check the model_building notebook
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-## Installation and Setup
+3. Install the required Python packages:
 
-1. Clone this repository:
+   ```bash
+   pip install flask flask-cors pandas numpy scikit-learn
+   ```
 
-```
-git clone https://github.com/yourusername/loan-default-prediction.git
-cd loan-default-prediction
-```
+4. Start the backend server:
+   ```bash
+   python app.py
+   ```
 
-2. Create and activate a virtual environment:
+The backend server will run on http://localhost:5000
 
-```
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+### Frontend Setup
 
-3. Install the required packages:
-   will be added later
+1. Navigate to the frontend directory:
 
-```
-pip install -r requirements.txt
-```
+   ```bash
+   cd frontend
+   ```
+
+2. Install the required npm packages:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the frontend development server:
+   ```bash
+   npm start
+   ```
+
+The frontend application will run on http://localhost:3000
 
 ## Usage
 
-### Using the Model for Predictions
+1. Open your web browser and navigate to http://localhost:3000
+2. Fill in the loan application details in the form
+3. Click the "Predict Default Risk" button
+4. View the prediction results, including:
+   - Default probability
+   - Risk level
+   - Recommendation
 
-```python
-import joblib
-import pandas as pd
-import numpy as np
+## API Endpoints
 
-# Load the model package
-model_package = joblib.load('models/final_loan_default_model.pkl')
-model = model_package['model']
-optimal_threshold = model_package['optimal_threshold']
-feature_names = model_package['feature_names']
+- `POST /api/predict`: Submit loan application data and receive prediction
+- `GET /api/health`: Check if the service is running
 
-# Load preprocessor
-preprocessor = joblib.load('models/preprocessor.pkl')
+## Model Information
 
-# Load and prepare new data
-new_loan_data = pd.read_csv('new_applications.csv')
-# Apply same feature engineering steps...
+The prediction model is a Random Forest classifier trained on historical loan data. It takes into account various factors including:
 
-# Preprocess the data
-X_new = preprocessor.transform(new_loan_data)
-
-# Get default probabilities
-default_probabilities = model.predict_proba(X_new)[:, 1]
-
-# Apply optimal threshold for decisions
-loan_decisions = (default_probabilities < optimal_threshold).astype(int)
-# 1 = Approve, 0 = Reject
-```
-
-## Future Improvements
-
-1. **Threshold Adjustment**: Refine the decision threshold to balance risk and return
-2. **Feature Engineering**: Create more sophisticated features capturing loan risk
-3. **Advanced Models**: Experiment with more complex models like gradient boosting
-4. **Segmented Models**: Develop separate models for different loan purposes or amounts
-5. **Economic Scenarios**: Build models for different economic conditions
-
-## Dependencies
-
-- Python 3.8+
-- pandas
-- numpy
-- scikit-learn
-- matplotlib
-- seaborn
-- joblib
-- imbalanced-learn (for SMOTE)
-
-## Contributors
-
-- Mohamed Abouzid
+- Credit policy
+- Loan purpose
+- Interest rate
+- Installment amount
+- Annual income
+- Debt-to-income ratio
+- FICO score
+- Credit history
+- Revolving balance and utilization
+- Recent inquiries
+- Delinquencies
+- Public records
 
 ## License
 
